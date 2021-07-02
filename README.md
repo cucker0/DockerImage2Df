@@ -6,7 +6,7 @@
 This tool is very useful when you only have docker image and need to generate a Dockerfile whit it.
 
 
-## Usage
+## How to use this image
 ```bash
 # Command alias
 echo "alias image2df='docker run -v /var/run/docker.sock:/var/run/docker.sock --rm cucker/image2df'" >> ~/.bashrc
