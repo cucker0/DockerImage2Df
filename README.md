@@ -16,6 +16,11 @@ echo "alias image2df='docker run -v /var/run/docker.sock:/var/run/docker.sock --
 image2df <IMAGE>
 ```
 
+* See help
+    ```bash
+    docker run --rm cucker/image2df --help
+    ```
+
 * For example
     ```bash
     $ echo "alias image2df='docker run -v /var/run/docker.sock:/var/run/docker.sock --rm cucker/image2df'" >> ~/.bashrc
@@ -86,7 +91,7 @@ image2df <IMAGE>
     ENTRYPOINT ["docker-entrypoint.sh"]
     EXPOSE 3306 33060
     CMD ["mysqld"]
-    ```    
+    ```
 
 ## How does it work
 1. Get the image history data by Docker API of python SDK, the data format is a List (python).
