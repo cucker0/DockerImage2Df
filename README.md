@@ -20,6 +20,7 @@ image2df <IMAGE>
     ```bash
     $ echo "alias image2df='docker run -v /var/run/docker.sock:/var/run/docker.sock --rm cucker/image2df'" >> ~/.bashrc
     $ . ~/.bashrc
+    $ docker pull mysql
     $ image2df mysql
 
     ========== Dockerfile ==========
@@ -88,7 +89,7 @@ image2df <IMAGE>
     ```    
 
 ## How does it work
-1. Get the image history data by Docker API of python SDK.
+1. Get the image history data by Docker API of python SDK, the data format is a List (python).
 2. Parse the history data by a python script--[generate_dockerfile.py](py/generate_dockerfile.py).
 
 ## How to make DockerImage2Df docker image
@@ -97,8 +98,6 @@ image2df <IMAGE>
     * Python 3
     * [Docker SDK for Python](https://docker-py.readthedocs.io/en/stable/)
     
-
-
 
 * prepare file
     ```text

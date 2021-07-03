@@ -9,11 +9,14 @@ import docker
 from docker.errors import ImageNotFound
 
 from sys import argv
-import re
+import re, os
 
 class DF(object):
     def __init__(self):
         super(DF, self).__init__()
+        if not os.path.exists("/var/run/docker.sock"):
+            self.help_msg()
+            exit(1)
         self.client = docker.DockerClient(base_url='unix://var/run/docker.sock')
         # image name or image id
         self.image = argv[1]
@@ -54,7 +57,7 @@ class DF(object):
     def _parse_history_msg(self):
         """parse image history json data
 
-        An example for image history json data,
+        An example for image history json data with docker api http, it will be a list, if docker API SDK python
         $ curl --unix-socket /var/run/docker.sock http://localhost/v1.41/images/hanxiao/mynginx:4.1/history
         [
             {
@@ -140,7 +143,7 @@ class DF(object):
         """
         if len(self.history_msg) == 0:
             return
-        tags = None  # The last "Not null Tags" of image history json data. It may not be the third from the back of json data
+        tags = None  # The last "Not null Tags" of image history json data. It may not be the third from the back of json data(or List, if python SDK)
         tags_not_null_count = 0
         length = len(self.history_msg)
 
