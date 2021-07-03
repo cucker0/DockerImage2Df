@@ -92,7 +92,7 @@ image2df <IMAGE>
 1. Get the image history data by Docker API of python SDK, the data format is a List (python).
 2. Parse the history data by a python script--[generate_dockerfile.py](py/generate_dockerfile.py).
 
-## How to make DockerImage2Df docker image
+## How to make the docker image for DockerImage2Df 
 * Prerequisites
     * [Install Docker Engine](https://docs.docker.com/engine/install/)
     * Python 3
