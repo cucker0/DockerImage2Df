@@ -95,6 +95,31 @@ image2df <IMAGE>
 
 ## How does it work
 1. Get the image history data by Docker API of python SDK, the data format is a List (python).
+    ```
+    >>> import docker
+    >>> client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+    >>> hist = client.images.get("image_name_or_id").history()
+    >>> print(hist)
+    >>> 
+    >>> # for mysql 
+    >>> hist = client.images.get("mysql").history()
+    >>> print(hist)
+    >>> [
+    {
+        'Comment': '',
+        'Created': 1618858607,
+        'CreatedBy': '/bin/sh-c#(nop)CMD[
+            "mysqld"
+        ]',
+        'Id': 'sha256: 0627ec6901db4b2aed6ca7ab35e43e19838ba079fffe8fe1be66b6feaad694de',
+        'Size': 0,
+        'Tags': [
+            'mysql: latest'
+        ]
+    },
+    ...
+    ]
+    ```
 2. Parse the history data by a python script--[generate_dockerfile.py](py/generate_dockerfile.py).
 
 ## How to make the docker image for DockerImage2Df 
@@ -104,7 +129,7 @@ image2df <IMAGE>
     * [Docker SDK for Python](https://docker-py.readthedocs.io/en/stable/)
     
 
-* prepare file
+* prepare files
     ```text
     /mydocker/image2df/
     ├── Dockerfile
