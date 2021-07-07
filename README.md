@@ -105,19 +105,19 @@ image2df <IMAGE>
     >>> hist = client.images.get("mysql").history()
     >>> print(hist)
     >>> [
-    {
-        'Comment': '',
-        'Created': 1618858607,
-        'CreatedBy': '/bin/sh-c#(nop)CMD[
-            "mysqld"
-        ]',
-        'Id': 'sha256: 0627ec6901db4b2aed6ca7ab35e43e19838ba079fffe8fe1be66b6feaad694de',
-        'Size': 0,
-        'Tags': [
-            'mysql: latest'
-        ]
-    },
-    ...
+        {
+            'Comment': '',
+            'Created': 1618858607,
+            'CreatedBy': '/bin/sh-c#(nop)CMD[
+                "mysqld"
+            ]',
+            'Id': 'sha256: 0627ec6901db4b2aed6ca7ab35e43e19838ba079fffe8fe1be66b6feaad694de',
+            'Size': 0,
+            'Tags': [
+                'mysql: latest'
+            ]
+        },
+        ...
     ]
     ```
 2. Parse the history data by a python script--[generate_dockerfile.py](py/generate_dockerfile.py).
