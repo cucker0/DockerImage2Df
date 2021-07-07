@@ -117,10 +117,11 @@ image2df <IMAGE>
 
 * Create repository
     
-    login to https://hub.docker.com, Create a repository, format is `<ID>/repository-name` for example: `cucker/image2df`
+    login to https://hub.docker.com, Create a repository, format is `<ID>/repository-name`, for example: `cucker/image2df`
     
 * Build image
     ```bash
+    cd /mydocker/image2df/
     docker build -f ./Dockerfile -t cucker/image2df:1.0 .
     ```
 * Tag image alias
