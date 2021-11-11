@@ -1,0 +1,7 @@
+FROM cucker/python:python_docker_1.0
+LABEL maintainer='Image to Dockerfile Docker Maintainers <hanxiao2100@qq.com>'
+
+COPY generate_dockerfile.py /
+
+ENTRYPOINT [ "python", "/generate_dockerfile.py" ]
+CMD [ "--help" ]

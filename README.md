@@ -9,7 +9,7 @@ This tool is very useful when you only have docker image and need to generate a 
 ## How to use this image
 ```bash
 # Command alias
-echo "alias image2df='docker run -v /var/run/docker.sock:/var/run/docker.sock --rm cucker/image2df'" >> ~/.bashrc
+echo "alias image2df='docker run --rm -v /var/run/docker.sock:/var/run/docker.sock cucker/image2df'" >> ~/.bashrc
 . ~/.bashrc
 
 # Excute command
@@ -23,7 +23,7 @@ image2df <IMAGE>
 
 * For example
     ```bash
-    $ echo "alias image2df='docker run -v /var/run/docker.sock:/var/run/docker.sock --rm cucker/image2df'" >> ~/.bashrc
+    $ echo "alias image2df='docker run --rm -v /var/run/docker.sock:/var/run/docker.sock cucker/image2df'" >> ~/.bashrc
     $ . ~/.bashrc
     $ docker pull mysql
     $ image2df mysql

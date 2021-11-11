@@ -40,12 +40,22 @@ class DF(object):
         # pretty print multi command lines following Docker best practices --start
         _row = re.sub(r";[ ]*\t+", r"; \t", _row)  # replace "; *\t+" to "; \t"
         _row = re.sub(r"(\t+)", r"\\\n\1", _row)  # replace "\t+" to "\\n\t+"
-        _row = re.sub(r";[ ]{4,}", r";    ", _row)  # replace ";[ ]{4,}" to ";    " (4 blank space)
+        _row = re.sub(r";[ ]{4,}", r";    ", _row)  # replace ";[ ]{4,}" to ";    " (4+ blank space)
         _row = re.sub(r"([ ]{4,})", r"\\\n\1", _row)  # replace "[ ]{4,}" to "\\n[ ]{4,}"
         # _row = _row.replace("&&", "\\\n    &&")  # replace "&&" to "\\n    &&"
         # _row = re.sub(r"(?!(?:;;))(;)", "; \\\n", _row)  # replace ";;" or ";" to "; \\n"
         # pretty print multi command lines following Docker best practices --end
-        self.dockerfile.append(_row.strip(' '))
+        _row = _row.strip(' ')
+
+        # docker history <IMAGE> 显示的CMD多个参数之间没有"," 分隔. ENTRYPOINT也是同样的情况。
+        # 当前测试的 docker 版本：docker 20.10.6
+        # 示例：
+        # CMD ["nginx" "-g" "daemon off;"]
+        # ENTRYPOINT ["/usr/sbin/nginx" "-g" "daemon off"]
+        if _row.startswith("CMD [") or _row.startswith("ENTRYPOINT ["):
+            _row = _row.replace('" "', '", "')
+
+        self.dockerfile.append(_row)
 
     def _get_history_msg(self):
         try:
@@ -171,7 +181,7 @@ class DF(object):
     def help_msg(self):
         _MSG = """Usage:
 # Command alias
-echo "alias image2df='docker run -v /var/run/docker.sock:/var/run/docker.sock --rm cucker/image2df'" >> ~/.bashrc
+echo "alias image2df='docker run --rm -v /var/run/docker.sock:/var/run/docker.sock cucker/image2df'" >> ~/.bashrc
 . ~/.bashrc
 
 # Excute command
