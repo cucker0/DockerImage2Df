@@ -1,10 +1,14 @@
 # DockerImage2Df
 
-## What is DockerImage2Df
-**DockerImage2Df** is tool for Generate Dockerfile from a image.
+## What is image2df
+**image2df** is tool for Generate Dockerfile by an image.
 
 This tool is very useful when you only have docker image and need to generate a Dockerfile whit it.
 
+## Deficiencies
+The "FROM \<basc_image>" maybe is not accurate.
+
+If you want to get an accurate basc_image info, you should build a Library for mapping images tag with files sha256 value, a file sha256 value like `ADD file:f278386b0cef68136129f5f58c52445590a417b624d62bca158d4dc926c340df in /`  .
 
 ## How to use this image
 ```bash
