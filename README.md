@@ -32,7 +32,7 @@ image2df <IMAGE>
     $ docker pull mysql
     $ image2df mysql
 
-    ========== Dockerfile ==========
+    # ========== Dockerfile ==========
     FROM mysql:latest
     RUN groupadd -r mysql && useradd -r -g mysql mysql
     RUN apt-get update && apt-get install -y --no-install-recommends gnupg dirmngr && rm -rf /var/lib/apt/lists/*
