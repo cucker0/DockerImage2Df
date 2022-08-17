@@ -29,7 +29,7 @@ class DF(object):
             return
         self.dockerfile.reverse()
         print()
-        print(" Dockerfile ".center(32, "="))
+        print("#", " Dockerfile ".center(32, "="))
         for i in self.dockerfile:
             print(i)
 
