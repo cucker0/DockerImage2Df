@@ -5,6 +5,8 @@
 
 This tool is very useful when you only have docker image and need to generate a Dockerfile with it.
 
+It is not applicable to multi-stage builds where a `COPY --from=` statement, because the image history data of multi-stage build information has been lost.
+
 ## Deficiencies
 The "FROM \<basc_image>" maybe is not accurate.
 

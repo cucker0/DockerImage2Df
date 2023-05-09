@@ -33,6 +33,35 @@ class DF(object):
         for i in self.dockerfile:
             print(i)
 
+    def _expose_format(self, row:str) -> str:
+        """比较新的版本的 docker 获取到的 docker image history 中 EXPOSE 字段的信息格式发生了变化。但 Dockerfile 不支持这种格式
+        例如 docker 23.0.5 新格式为
+        "EXPOSE map[3306/tcp:{} 53/tcp:{} 53/udp:{} 80/tcp:{} 8000/tcp:{}]"
+        Dockerfile 中只支持：
+        EXPOSE 3306/tcp 53/tcp 53/udp 80/tcp 8000/tcp
+
+        新的格式：
+        $ curl --unix-socket /var/run/docker.sock http://localhost/v1.43/images/cucker/dns:all-2.2/history
+
+        [
+            {
+                "Comment": "buildkit.dockerfile.v0",
+                "Created": 1683453195,
+                "CreatedBy": "EXPOSE map[3306/tcp:{} 53/tcp:{} 53/udp:{} 80/tcp:{} 8000/tcp:{}]",
+                "Id": "<missing>",
+                "Size": 0,
+                "Tags": null
+            },
+            ...
+        ]
+
+        :param row: 一条 image history CreatedBy 数据
+        :return: 过滤处理后的 image history CreatedBy 数据
+        """
+        if row.startswith('EXPOSE map['):
+            return row.replace('map[', '').replace(']', '').replace(':{}', '')
+        return row
+
     def _row_format(self, row):
         _row = re.sub(r"/bin/(ba)?sh -c", 'RUN',
                       row)  # replace "/bin/sh -c" or "/bin/bash -c" to "RUN" for RUN instruction
@@ -54,7 +83,7 @@ class DF(object):
         # ENTRYPOINT ["/usr/sbin/nginx" "-g" "daemon off"]
         if _row.startswith("CMD [") or _row.startswith("ENTRYPOINT ["):
             _row = _row.replace('" "', '", "')
-
+        _row = self._expose_format(_row)
         self.dockerfile.append(_row)
 
     def _get_history_msg(self):
@@ -197,7 +226,7 @@ image2df <IMAGE>
 
 if __name__ == '__main__':
     df = DF()
-    if len(argv) < 2 or argv[1] == "--help":
+    if len(argv) < 2 or argv[1] in ("--help", "-h"):
         df.help_msg()
         exit(1)
     ret = df.start()
