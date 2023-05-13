@@ -1,4 +1,4 @@
-FROM cucker/python:python_docker_1.0
+FROM cucker/python:python_docker_1.2
 LABEL maintainer='Image to Dockerfile Docker Maintainers <hanxiao2100@qq.com>'
 
 COPY py/generate_dockerfile.py /
