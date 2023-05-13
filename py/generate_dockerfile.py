@@ -33,7 +33,33 @@ class DF(object):
         for i in self.dockerfile:
             print(i)
 
-    def _expose_format(self, row:str) -> str:
+    def _volume_format(self, row: str) -> str:
+        """ VOLUME 指令格式化
+
+        docker image history 格式：
+        $ curl --unix-socket /var/run/docker.sock http://localhost/v1.42/images/cucker/dns:all-3.1/history
+        [
+            {
+            "Comment": "",
+            "Created": 1681771473,
+            "CreatedBy": "/bin/sh -c #(nop)  VOLUME [/var/lib/mysql /etc/named]",
+            "Id": "<missing>",
+            "Size": 0,
+            "Tags": null
+            },
+            ...
+        ]
+
+        这里需要把 `VOLUME [/var/lib/mysql /etc/named]` 修改为
+        `VOLUME ["/var/lib/mysql", "/etc/named"]`
+        :param row:
+        :return:
+        """
+        if row.startswith('VOLUME ['):
+            return row.replace(' ', '", "').replace('", "[', ' ["').replace(']', '"]')
+        return row
+
+    def _expose_format(self, row: str) -> str:
         """比较新的版本的 docker 获取到的 docker image history 中 EXPOSE 字段的信息格式发生了变化。但 Dockerfile 不支持这种格式
         例如 docker 23.0.5 新格式为
         "EXPOSE map[3306/tcp:{} 53/tcp:{} 53/udp:{} 80/tcp:{} 8000/tcp:{}]"
@@ -41,7 +67,7 @@ class DF(object):
         EXPOSE 3306/tcp 53/tcp 53/udp 80/tcp 8000/tcp
 
         新的格式：
-        $ curl --unix-socket /var/run/docker.sock http://localhost/v1.43/images/cucker/dns:all-2.2/history
+        $ curl --unix-socket /var/run/docker.sock http://localhost/v1.42/images/cucker/dns:all-2.2/history
 
         [
             {
@@ -84,6 +110,7 @@ class DF(object):
         if _row.startswith("CMD [") or _row.startswith("ENTRYPOINT ["):
             _row = _row.replace('" "', '", "')
         _row = self._expose_format(_row)
+        _row = self._volume_format(_row)
         self.dockerfile.append(_row)
 
     def _get_history_msg(self):
