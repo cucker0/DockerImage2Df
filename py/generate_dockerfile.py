@@ -237,7 +237,7 @@ class DF(object):
     def help_msg(self):
         _MSG = """Usage:
 # Command alias
-echo "alias image2df='docker run --rm -v /var/run/docker.sock:/var/run/docker.sock cucker/image2df'" >> ~/.bashrc
+echo "alias image2df='docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock cucker/image2df'" >> ~/.bashrc
 . ~/.bashrc
 
 # Excute command
