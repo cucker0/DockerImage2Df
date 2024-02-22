@@ -135,7 +135,7 @@ image2df <IMAGE>
     * [Docker SDK for Python](https://docker-py.readthedocs.io/en/stable/)
     
 
-* prepare files
+* Prepare files
     ```text
     /mydocker/image2df/
     ├── Dockerfile
