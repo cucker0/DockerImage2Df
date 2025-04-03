@@ -96,7 +96,7 @@ class DF(object):
         _row = re.sub(r";[ ]*\t+", r"; \t", _row)  # replace "; *\t+" to "; \t"
         _row = re.sub(r"(\t+)", r"\\\n\1", _row)  # replace "\t+" to "\\n\t+"
         _row = re.sub(r";[ ]{4,}", r";    ", _row)  # replace ";[ ]{4,}" to ";    " (4+ blank space)
-        _row = re.sub(r"([ ]{4,})", r" \\\n\1", _row)  # replace "[ ]{4,}" to " \\n[ ]{4,}"
+        _row = re.sub(r";([ ]{4,})", r"; \\\n\1", _row)  # replace ";[ ]{4,}" to "; \\n[ ]{4,}"
         # _row = _row.replace("&&", "\\\n    &&")  # replace "&&" to "\\n    &&"
         # _row = re.sub(r"(?!(?:;;))(;)", "; \\\n", _row)  # replace ";;" or ";" to "; \\n"
         # pretty print multi command lines following Docker best practices --end
